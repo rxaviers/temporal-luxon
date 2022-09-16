@@ -1,4 +1,4 @@
-import { DateTime as LuxonDateTime } from "./luxon";
+import { DateTime as LuxonDateTime } from "./luxon.mjs";
 import { PlainDate, PlainDateTime, ZonedDateTime } from "./index.mjs";
 
 export class Instant {
