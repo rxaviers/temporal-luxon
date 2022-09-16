@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "description": "Temporal API using luxon under the hoods",
   "main": "dist/index.js",
-  "module": "src/index.mjs",
+  "module": "dist/index.mjs",
   "files": [
     "LICENSE-MIT",
     "README.md",
@@ -14,7 +14,7 @@
   "exports": {
     ".": {
       "require": "./dist/index.js",
-      "import": "./src/index.mjs",
+      "import": "./dist/index.mjs",
       "types": "./src/index.d.ts"
     },
     "./package.json": "./package.json"
@@ -50,7 +50,7 @@
   "homepage": "https://github.com/rxaviers/temporal-luxon#readme",
   "scripts": {
     "test": "eslint --ext .js --ext .mjs src && mocha",
-    "build": "tsup src/index.mjs"
+    "build": "tsup --format cjs --format esm src/index.mjs"
   },
   "devDependencies": {
     "chai": "^4.3.6",
