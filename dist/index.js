@@ -250,12 +250,12 @@ var PlainDate = class {
     ({ year, month, day } = luxon);
     return new PlainDate(year, month, day);
   }
-  toPlainDateTime(time) {
-    if (typeof time === "string") {
+  toPlainDateTime(time2) {
+    if (typeof time2 === "string") {
       throw new TypeError("Type not implememnted");
     }
     const { year, month, day } = this;
-    return PlainDateTime.from({ year, month, day, ...time });
+    return PlainDateTime.from({ year, month, day, ...time2 });
   }
   toInstant() {
     const { year, month, day } = this;
@@ -282,6 +282,54 @@ var PlainDate = class {
 
 // src/plain-time.mjs
 var PlainTime = class {
+  static compare() {
+    throw new TypeError("Not yet implememnted");
+  }
+  static from(thing) {
+    let luxon;
+    if (typeof thing === "string") {
+      luxon = DateTime.fromISO(thing);
+    } else {
+      luxon = DateTime.fromObject(thing);
+    }
+    const { hour, minute, second, millisecond } = luxon;
+    return new PlainTime(hour, minute, second, millisecond);
+  }
+  constructor(isoHour, isoMinute, isoSecond, isoMillisecond) {
+    this.hour = isoHour;
+    this.minute = isoMinute;
+    this.second = isoSecond;
+    this.millisecond = isoMillisecond;
+  }
+  add(duration) {
+    let { hour, minute, second, millisecond } = this;
+    const luxon = DateTime.fromObject({ hour, minute, second, millisecond }).plus(duration);
+    ({ hour, minute, second, millisecond } = luxon);
+    return new PlainTime(hour, minute, second, millisecond);
+  }
+  toPlainDateTime(date) {
+    if (typeof time === "string") {
+      throw new TypeError("Type not implememnted");
+    }
+    const { year, month, day } = date;
+    const { hour, minute, second, millisecond } = this;
+    return PlainDateTime.from({ year, month, day, hour, minute, second, millisecond });
+  }
+  toZonedDateTime({ timeZone, plainDate } = {}) {
+    if (!timeZone) {
+      throw new TypeError("Missing timeZone");
+    }
+    if (!plainDate) {
+      throw new TypeError("Missing plainDate");
+    }
+    const { year, month, day } = plainDate;
+    const { hour, minute, second, millisecond } = this;
+    const epochMilliseconds = DateTime.fromObject(
+      { year, month, day, hour, minute, second, millisecond },
+      { zone: timeZone }
+    ).toJSDate().getTime();
+    return new ZonedDateTime(epochMilliseconds, timeZone);
+  }
 };
 
 // src/zoned-date-time.mjs
