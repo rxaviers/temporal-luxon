@@ -1,21 +1,19 @@
 import { DateTime as LuxonDateTime } from "./luxon.mjs";
-import { PlainDate, PlainDateTime, Instant, ZonedDateTime } from "./index.mjs";
+import { PlainDate, PlainTime, PlainDateTime, Instant, ZonedDateTime } from "./index.mjs";
 
 export class Now {
-  static instant() {
-    return Instant.from(Date.now());
-  }
-
   static timeZone() {
     return LuxonDateTime.now().zoneName;
   }
 
-  static zonedDateTimeISO() {
-    return new ZonedDateTime(Date.now(), Now.timeZone());
-  }
-
   static plainDateISO() {
     return PlainDate.from(LuxonDateTime.now().toISODate());
+  }
+
+  static plainTimeISO() {
+    return PlainTime.from(
+      LuxonDateTime.now().toISOTime({ includeOffset: false })
+    );
   }
 
   static plainDateTimeISO() {
@@ -23,4 +21,13 @@ export class Now {
       LuxonDateTime.now().toISO({ includeOffset: false })
     );
   }
+
+  static instant() {
+    return Instant.from(Date.now());
+  }
+
+  static zonedDateTimeISO() {
+    return new ZonedDateTime(Date.now(), Now.timeZone());
+  }
+
 }

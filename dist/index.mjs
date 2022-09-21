@@ -55,22 +55,27 @@ var Instant = class {
 
 // src/now.mjs
 var Now = class {
-  static instant() {
-    return Instant.from(Date.now());
-  }
   static timeZone() {
     return DateTime.now().zoneName;
   }
-  static zonedDateTimeISO() {
-    return new ZonedDateTime(Date.now(), Now.timeZone());
-  }
   static plainDateISO() {
     return PlainDate.from(DateTime.now().toISODate());
+  }
+  static plainTimeISO() {
+    return PlainTime.from(
+      DateTime.now().toISOTime({ includeOffset: false })
+    );
   }
   static plainDateTimeISO() {
     return PlainDateTime.from(
       DateTime.now().toISO({ includeOffset: false })
     );
+  }
+  static instant() {
+    return Instant.from(Date.now());
+  }
+  static zonedDateTimeISO() {
+    return new ZonedDateTime(Date.now(), Now.timeZone());
   }
 };
 
