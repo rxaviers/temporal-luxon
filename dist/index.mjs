@@ -1,6 +1,5 @@
 // src/luxon.mjs
-import luxon from "luxon";
-var DateTime = luxon.DateTime;
+import { DateTime } from "luxon";
 
 // src/instant.mjs
 var Instant = class {
@@ -28,13 +27,13 @@ var Instant = class {
     this.epochMilliseconds = epochMilliseconds;
   }
   toPlainDate() {
-    const luxon2 = DateTime.fromMillis(this.epochMilliseconds);
-    const { year, month, day } = luxon2;
+    const luxon = DateTime.fromMillis(this.epochMilliseconds);
+    const { year, month, day } = luxon;
     return new PlainDate(year, month, day);
   }
   toPlainDateTime() {
-    const luxon2 = DateTime.fromMillis(this.epochMilliseconds);
-    const { year, month, day, hour, minute, second, millisecond } = luxon2;
+    const luxon = DateTime.fromMillis(this.epochMilliseconds);
+    const { year, month, day, hour, minute, second, millisecond } = luxon;
     return new PlainDateTime(
       year,
       month,
@@ -106,13 +105,13 @@ var PlainDateTime = class {
     return diff ? diff / Math.abs(diff) : 0;
   }
   static from(thing) {
-    let luxon2;
+    let luxon;
     if (typeof thing === "string") {
-      luxon2 = DateTime.fromISO(thing);
+      luxon = DateTime.fromISO(thing);
     } else {
-      luxon2 = DateTime.fromObject(thing);
+      luxon = DateTime.fromObject(thing);
     }
-    const { year, month, day, hour, minute, second, millisecond } = luxon2;
+    const { year, month, day, hour, minute, second, millisecond } = luxon;
     return new PlainDateTime(
       year,
       month,
@@ -134,7 +133,7 @@ var PlainDateTime = class {
   }
   add(duration) {
     let { year, month, day, hour, minute, second, millisecond } = this;
-    const luxon2 = DateTime.fromObject({
+    const luxon = DateTime.fromObject({
       year,
       month,
       day,
@@ -143,7 +142,7 @@ var PlainDateTime = class {
       second,
       millisecond
     }).plus(duration);
-    ({ year, month, day, hour, minute, second, millisecond } = luxon2);
+    ({ year, month, day, hour, minute, second, millisecond } = luxon);
     return new PlainDateTime(
       year,
       month,
@@ -167,7 +166,7 @@ var PlainDateTime = class {
   }
   toString() {
     const { year, month, day, hour, minute, second, millisecond } = this;
-    const luxon2 = DateTime.fromObject({
+    const luxon = DateTime.fromObject({
       year,
       month,
       day,
@@ -176,7 +175,7 @@ var PlainDateTime = class {
       second,
       millisecond
     });
-    return luxon2.toISO({ includeOffset: false });
+    return luxon.toISO({ includeOffset: false });
   }
 };
 
@@ -199,13 +198,13 @@ var PlainDate = class {
     return diff ? diff / Math.abs(diff) : 0;
   }
   static from(thing) {
-    let luxon2;
+    let luxon;
     if (typeof thing === "string") {
-      luxon2 = DateTime.fromISO(thing);
+      luxon = DateTime.fromISO(thing);
     } else {
-      luxon2 = DateTime.fromObject(thing);
+      luxon = DateTime.fromObject(thing);
     }
-    const { year, month, day } = luxon2;
+    const { year, month, day } = luxon;
     return new PlainDate(year, month, day);
   }
   constructor(isoYear, isoMonth, isoDay) {
@@ -215,8 +214,8 @@ var PlainDate = class {
   }
   add(duration) {
     let { year, month, day } = this;
-    const luxon2 = DateTime.fromObject({ year, month, day }).plus(duration);
-    ({ year, month, day } = luxon2);
+    const luxon = DateTime.fromObject({ year, month, day }).plus(duration);
+    ({ year, month, day } = luxon);
     return new PlainDate(year, month, day);
   }
   toPlainDateTime(time2) {
@@ -244,8 +243,8 @@ var PlainDate = class {
   }
   toString() {
     const { year, month, day } = this;
-    const luxon2 = DateTime.fromObject({ year, month, day });
-    return luxon2.toISODate();
+    const luxon = DateTime.fromObject({ year, month, day });
+    return luxon.toISODate();
   }
 };
 
@@ -255,13 +254,13 @@ var PlainTime = class {
     throw new TypeError("Not yet implememnted");
   }
   static from(thing) {
-    let luxon2;
+    let luxon;
     if (typeof thing === "string") {
-      luxon2 = DateTime.fromISO(thing);
+      luxon = DateTime.fromISO(thing);
     } else {
-      luxon2 = DateTime.fromObject(thing);
+      luxon = DateTime.fromObject(thing);
     }
-    const { hour, minute, second, millisecond } = luxon2;
+    const { hour, minute, second, millisecond } = luxon;
     return new PlainTime(hour, minute, second, millisecond);
   }
   constructor(isoHour, isoMinute, isoSecond, isoMillisecond) {
@@ -272,8 +271,8 @@ var PlainTime = class {
   }
   add(duration) {
     let { hour, minute, second, millisecond } = this;
-    const luxon2 = DateTime.fromObject({ hour, minute, second, millisecond }).plus(duration);
-    ({ hour, minute, second, millisecond } = luxon2);
+    const luxon = DateTime.fromObject({ hour, minute, second, millisecond }).plus(duration);
+    ({ hour, minute, second, millisecond } = luxon);
     return new PlainTime(hour, minute, second, millisecond);
   }
   toPlainDateTime(date) {

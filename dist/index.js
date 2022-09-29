@@ -1,8 +1,6 @@
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -16,10 +14,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/index.mjs
@@ -35,8 +29,7 @@ __export(src_exports, {
 module.exports = __toCommonJS(src_exports);
 
 // src/luxon.mjs
-var import_luxon = __toESM(require("luxon"), 1);
-var DateTime = import_luxon.default.DateTime;
+var import_luxon = require("luxon");
 
 // src/instant.mjs
 var Instant = class {
@@ -64,13 +57,13 @@ var Instant = class {
     this.epochMilliseconds = epochMilliseconds;
   }
   toPlainDate() {
-    const luxon2 = DateTime.fromMillis(this.epochMilliseconds);
-    const { year, month, day } = luxon2;
+    const luxon = import_luxon.DateTime.fromMillis(this.epochMilliseconds);
+    const { year, month, day } = luxon;
     return new PlainDate(year, month, day);
   }
   toPlainDateTime() {
-    const luxon2 = DateTime.fromMillis(this.epochMilliseconds);
-    const { year, month, day, hour, minute, second, millisecond } = luxon2;
+    const luxon = import_luxon.DateTime.fromMillis(this.epochMilliseconds);
+    const { year, month, day, hour, minute, second, millisecond } = luxon;
     return new PlainDateTime(
       year,
       month,
@@ -92,19 +85,19 @@ var Instant = class {
 // src/now.mjs
 var Now = class {
   static timeZone() {
-    return DateTime.now().zoneName;
+    return import_luxon.DateTime.now().zoneName;
   }
   static plainDateISO() {
-    return PlainDate.from(DateTime.now().toISODate());
+    return PlainDate.from(import_luxon.DateTime.now().toISODate());
   }
   static plainTimeISO() {
     return PlainTime.from(
-      DateTime.now().toISOTime({ includeOffset: false })
+      import_luxon.DateTime.now().toISOTime({ includeOffset: false })
     );
   }
   static plainDateTimeISO() {
     return PlainDateTime.from(
-      DateTime.now().toISO({ includeOffset: false })
+      import_luxon.DateTime.now().toISO({ includeOffset: false })
     );
   }
   static instant() {
@@ -126,7 +119,7 @@ var PlainDateTime = class {
     }
     const getLuxon = (i) => {
       const { year, month, day, hour, minute, second, millisecond } = i;
-      return DateTime.fromObject({
+      return import_luxon.DateTime.fromObject({
         year,
         month,
         day,
@@ -142,13 +135,13 @@ var PlainDateTime = class {
     return diff ? diff / Math.abs(diff) : 0;
   }
   static from(thing) {
-    let luxon2;
+    let luxon;
     if (typeof thing === "string") {
-      luxon2 = DateTime.fromISO(thing);
+      luxon = import_luxon.DateTime.fromISO(thing);
     } else {
-      luxon2 = DateTime.fromObject(thing);
+      luxon = import_luxon.DateTime.fromObject(thing);
     }
-    const { year, month, day, hour, minute, second, millisecond } = luxon2;
+    const { year, month, day, hour, minute, second, millisecond } = luxon;
     return new PlainDateTime(
       year,
       month,
@@ -170,7 +163,7 @@ var PlainDateTime = class {
   }
   add(duration) {
     let { year, month, day, hour, minute, second, millisecond } = this;
-    const luxon2 = DateTime.fromObject({
+    const luxon = import_luxon.DateTime.fromObject({
       year,
       month,
       day,
@@ -179,7 +172,7 @@ var PlainDateTime = class {
       second,
       millisecond
     }).plus(duration);
-    ({ year, month, day, hour, minute, second, millisecond } = luxon2);
+    ({ year, month, day, hour, minute, second, millisecond } = luxon);
     return new PlainDateTime(
       year,
       month,
@@ -195,7 +188,7 @@ var PlainDateTime = class {
       throw new TypeError("Missing timeZone");
     }
     const { year, month, day, hour, minute, second, millisecond } = this;
-    const epochMilliseconds = DateTime.fromObject(
+    const epochMilliseconds = import_luxon.DateTime.fromObject(
       { year, month, day, hour, minute, second, millisecond },
       { zone: timeZone }
     ).toJSDate().getTime();
@@ -203,7 +196,7 @@ var PlainDateTime = class {
   }
   toString() {
     const { year, month, day, hour, minute, second, millisecond } = this;
-    const luxon2 = DateTime.fromObject({
+    const luxon = import_luxon.DateTime.fromObject({
       year,
       month,
       day,
@@ -212,7 +205,7 @@ var PlainDateTime = class {
       second,
       millisecond
     });
-    return luxon2.toISO({ includeOffset: false });
+    return luxon.toISO({ includeOffset: false });
   }
 };
 
@@ -227,7 +220,7 @@ var PlainDate = class {
     }
     const getLuxon = (i) => {
       const { year, month, day } = i;
-      return DateTime.fromObject({ year, month, day });
+      return import_luxon.DateTime.fromObject({ year, month, day });
     };
     const luxonA = getLuxon(a);
     const luxonB = getLuxon(b);
@@ -235,13 +228,13 @@ var PlainDate = class {
     return diff ? diff / Math.abs(diff) : 0;
   }
   static from(thing) {
-    let luxon2;
+    let luxon;
     if (typeof thing === "string") {
-      luxon2 = DateTime.fromISO(thing);
+      luxon = import_luxon.DateTime.fromISO(thing);
     } else {
-      luxon2 = DateTime.fromObject(thing);
+      luxon = import_luxon.DateTime.fromObject(thing);
     }
-    const { year, month, day } = luxon2;
+    const { year, month, day } = luxon;
     return new PlainDate(year, month, day);
   }
   constructor(isoYear, isoMonth, isoDay) {
@@ -251,8 +244,8 @@ var PlainDate = class {
   }
   add(duration) {
     let { year, month, day } = this;
-    const luxon2 = DateTime.fromObject({ year, month, day }).plus(duration);
-    ({ year, month, day } = luxon2);
+    const luxon = import_luxon.DateTime.fromObject({ year, month, day }).plus(duration);
+    ({ year, month, day } = luxon);
     return new PlainDate(year, month, day);
   }
   toPlainDateTime(time2) {
@@ -264,7 +257,7 @@ var PlainDate = class {
   }
   toInstant() {
     const { year, month, day } = this;
-    const epochMilliseconds = DateTime.fromObject({ year, month, day }).toJSDate().getTime();
+    const epochMilliseconds = import_luxon.DateTime.fromObject({ year, month, day }).toJSDate().getTime();
     return new Instant(epochMilliseconds);
   }
   toZonedDateTime({ timeZone } = {}) {
@@ -272,7 +265,7 @@ var PlainDate = class {
       throw new TypeError("Missing timeZone");
     }
     const { year, month, day } = this;
-    const epochMilliseconds = DateTime.fromObject(
+    const epochMilliseconds = import_luxon.DateTime.fromObject(
       { year, month, day },
       { zone: timeZone }
     ).toJSDate().getTime();
@@ -280,8 +273,8 @@ var PlainDate = class {
   }
   toString() {
     const { year, month, day } = this;
-    const luxon2 = DateTime.fromObject({ year, month, day });
-    return luxon2.toISODate();
+    const luxon = import_luxon.DateTime.fromObject({ year, month, day });
+    return luxon.toISODate();
   }
 };
 
@@ -291,13 +284,13 @@ var PlainTime = class {
     throw new TypeError("Not yet implememnted");
   }
   static from(thing) {
-    let luxon2;
+    let luxon;
     if (typeof thing === "string") {
-      luxon2 = DateTime.fromISO(thing);
+      luxon = import_luxon.DateTime.fromISO(thing);
     } else {
-      luxon2 = DateTime.fromObject(thing);
+      luxon = import_luxon.DateTime.fromObject(thing);
     }
-    const { hour, minute, second, millisecond } = luxon2;
+    const { hour, minute, second, millisecond } = luxon;
     return new PlainTime(hour, minute, second, millisecond);
   }
   constructor(isoHour, isoMinute, isoSecond, isoMillisecond) {
@@ -308,8 +301,8 @@ var PlainTime = class {
   }
   add(duration) {
     let { hour, minute, second, millisecond } = this;
-    const luxon2 = DateTime.fromObject({ hour, minute, second, millisecond }).plus(duration);
-    ({ hour, minute, second, millisecond } = luxon2);
+    const luxon = import_luxon.DateTime.fromObject({ hour, minute, second, millisecond }).plus(duration);
+    ({ hour, minute, second, millisecond } = luxon);
     return new PlainTime(hour, minute, second, millisecond);
   }
   toPlainDateTime(date) {
@@ -329,7 +322,7 @@ var PlainTime = class {
     }
     const { year, month, day } = plainDate;
     const { hour, minute, second, millisecond } = this;
-    const epochMilliseconds = DateTime.fromObject(
+    const epochMilliseconds = import_luxon.DateTime.fromObject(
       { year, month, day, hour, minute, second, millisecond },
       { zone: timeZone }
     ).toJSDate().getTime();
@@ -345,14 +338,14 @@ var ZonedDateTime = class {
     }
     const { timeZone, ...props } = item;
     const instant = Instant.from(
-      DateTime.fromObject(props, { zone: timeZone }).toISO()
+      import_luxon.DateTime.fromObject(props, { zone: timeZone }).toISO()
     );
     return new ZonedDateTime(instant.epochMilliseconds, timeZone);
   }
   constructor(epochMilliseconds, timeZone) {
     this.timeZone = timeZone;
     this.epochMilliseconds = epochMilliseconds;
-    this.luxonDateTime = DateTime.fromMillis(epochMilliseconds, {
+    this.luxonDateTime = import_luxon.DateTime.fromMillis(epochMilliseconds, {
       zone: timeZone
     });
   }
