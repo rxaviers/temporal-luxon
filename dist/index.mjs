@@ -1,6 +1,5 @@
 // src/luxon.mjs
-import _luxon from "luxon";
-var DateTime = _luxon.DateTime;
+import { DateTime } from "luxon";
 
 // src/instant.mjs
 var Instant = class {
