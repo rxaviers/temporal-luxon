@@ -2,8 +2,23 @@ import { DateTime as LuxonDateTime } from "./luxon.mjs";
 import { PlainDateTime, ZonedDateTime } from "./index.mjs";
 
 export class PlainTime {
-  static compare() {
-    throw new TypeError("Not yet implememnted");
+  static compare(a, b) {
+    if (a.toPlainTime) {
+      a = a.toPlainTime();
+    }
+    if (b.toPlainTime) {
+      b = b.toPlainTime();
+    }
+    const getLuxon = (i) => {
+      const { hour, minute, second, millisecond } = i;
+
+      return LuxonDateTime.fromObject({ hour, minute, second, millisecond });
+    };
+    const luxonA = getLuxon(a);
+    const luxonB = getLuxon(b);
+    const diff = luxonA.diff(luxonB, "millisecond").milliseconds;
+
+    return diff ? diff / Math.abs(diff) : 0;
   }
 
   static from(thing) {

@@ -280,8 +280,21 @@ var PlainDate = class {
 
 // src/plain-time.mjs
 var PlainTime = class {
-  static compare() {
-    throw new TypeError("Not yet implememnted");
+  static compare(a, b) {
+    if (a.toPlainTime) {
+      a = a.toPlainTime();
+    }
+    if (b.toPlainTime) {
+      b = b.toPlainTime();
+    }
+    const getLuxon = (i) => {
+      const { hour, minute, second, millisecond } = i;
+      return import_luxon.DateTime.fromObject({ hour, minute, second, millisecond });
+    };
+    const luxonA = getLuxon(a);
+    const luxonB = getLuxon(b);
+    const diff = luxonA.diff(luxonB, "millisecond").milliseconds;
+    return diff ? diff / Math.abs(diff) : 0;
   }
   static from(thing) {
     let luxon;
