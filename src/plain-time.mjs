@@ -42,7 +42,25 @@ export class PlainTime {
 
   add(duration) {
     let { hour, minute, second, millisecond } = this;
-    const luxon = LuxonDateTime.fromObject({ hour, minute, second, millisecond }).plus(duration);
+    const luxon = LuxonDateTime.fromObject({
+      hour,
+      minute,
+      second,
+      millisecond,
+    }).plus(duration);
+    ({ hour, minute, second, millisecond } = luxon);
+
+    return new PlainTime(hour, minute, second, millisecond);
+  }
+
+  with(timeLike) {
+    let { hour, minute, second, millisecond } = this;
+    const luxon = LuxonDateTime.fromObject({
+      hour,
+      minute,
+      second,
+      millisecond,
+    }).set(timeLike);
     ({ hour, minute, second, millisecond } = luxon);
 
     return new PlainTime(hour, minute, second, millisecond);
@@ -55,7 +73,15 @@ export class PlainTime {
     const { year, month, day } = date;
     const { hour, minute, second, millisecond } = this;
 
-    return PlainDateTime.from({ year, month, day, hour, minute, second, millisecond });
+    return PlainDateTime.from({
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      second,
+      millisecond,
+    });
   }
 
   toZonedDateTime({ timeZone, plainDate } = {}) {

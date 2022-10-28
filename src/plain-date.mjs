@@ -47,6 +47,14 @@ export class PlainDate {
     return new PlainDate(year, month, day);
   }
 
+  with(dateLike) {
+    let { year, month, day } = this;
+    const luxon = LuxonDateTime.fromObject({ year, month, day }).set(dateLike);
+    ({ year, month, day } = luxon);
+
+    return new PlainDate(year, month, day);
+  }
+
   toPlainDateTime(time) {
     if (typeof time === "string") {
       throw new TypeError("Type not implememnted");

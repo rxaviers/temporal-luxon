@@ -91,6 +91,30 @@ export class PlainDateTime {
     );
   }
 
+  with(dateTimeLike) {
+    let { year, month, day, hour, minute, second, millisecond } = this;
+    const luxon = LuxonDateTime.fromObject({
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      second,
+      millisecond,
+    }).set(dateTimeLike);
+    ({ year, month, day, hour, minute, second, millisecond } = luxon);
+
+    return new PlainDateTime(
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      second,
+      millisecond
+    );
+  }
+
   toZonedDateTime({ timeZone } = {}) {
     if (!timeZone) {
       throw new TypeError("Missing timeZone");
