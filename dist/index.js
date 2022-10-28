@@ -183,6 +183,28 @@ var PlainDateTime = class {
       millisecond
     );
   }
+  with(dateTimeLike) {
+    let { year, month, day, hour, minute, second, millisecond } = this;
+    const luxon = import_luxon.DateTime.fromObject({
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      second,
+      millisecond
+    }).set(dateTimeLike);
+    ({ year, month, day, hour, minute, second, millisecond } = luxon);
+    return new PlainDateTime(
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      second,
+      millisecond
+    );
+  }
   toZonedDateTime({ timeZone } = {}) {
     if (!timeZone) {
       throw new TypeError("Missing timeZone");
@@ -245,6 +267,12 @@ var PlainDate = class {
   add(duration) {
     let { year, month, day } = this;
     const luxon = import_luxon.DateTime.fromObject({ year, month, day }).plus(duration);
+    ({ year, month, day } = luxon);
+    return new PlainDate(year, month, day);
+  }
+  with(dateLike) {
+    let { year, month, day } = this;
+    const luxon = import_luxon.DateTime.fromObject({ year, month, day }).set(dateLike);
     ({ year, month, day } = luxon);
     return new PlainDate(year, month, day);
   }
@@ -314,7 +342,23 @@ var PlainTime = class {
   }
   add(duration) {
     let { hour, minute, second, millisecond } = this;
-    const luxon = import_luxon.DateTime.fromObject({ hour, minute, second, millisecond }).plus(duration);
+    const luxon = import_luxon.DateTime.fromObject({
+      hour,
+      minute,
+      second,
+      millisecond
+    }).plus(duration);
+    ({ hour, minute, second, millisecond } = luxon);
+    return new PlainTime(hour, minute, second, millisecond);
+  }
+  with(timeLike) {
+    let { hour, minute, second, millisecond } = this;
+    const luxon = import_luxon.DateTime.fromObject({
+      hour,
+      minute,
+      second,
+      millisecond
+    }).set(timeLike);
     ({ hour, minute, second, millisecond } = luxon);
     return new PlainTime(hour, minute, second, millisecond);
   }
@@ -324,7 +368,15 @@ var PlainTime = class {
     }
     const { year, month, day } = date;
     const { hour, minute, second, millisecond } = this;
-    return PlainDateTime.from({ year, month, day, hour, minute, second, millisecond });
+    return PlainDateTime.from({
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      second,
+      millisecond
+    });
   }
   toZonedDateTime({ timeZone, plainDate } = {}) {
     if (!timeZone) {
