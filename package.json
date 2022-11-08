@@ -1,6 +1,6 @@
 {
   "name": "temporal-luxon",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Temporal API using luxon under the hoods",
   "main": "dist/index.js",
   "browser": "dist/index.js",
