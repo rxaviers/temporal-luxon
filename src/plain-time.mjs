@@ -33,7 +33,7 @@ export class PlainTime {
     return new PlainTime(hour, minute, second, millisecond);
   }
 
-  constructor(isoHour, isoMinute, isoSecond, isoMillisecond) {
+  constructor(isoHour = 0, isoMinute = 0, isoSecond = 0, isoMillisecond = 0) {
     this.hour = isoHour;
     this.minute = isoMinute;
     this.second = isoSecond;
