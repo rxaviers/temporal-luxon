@@ -304,7 +304,7 @@ var PlainTime = class {
     const { hour, minute, second, millisecond } = luxon;
     return new PlainTime(hour, minute, second, millisecond);
   }
-  constructor(isoHour, isoMinute, isoSecond, isoMillisecond) {
+  constructor(isoHour = 0, isoMinute = 0, isoSecond = 0, isoMillisecond = 0) {
     this.hour = isoHour;
     this.minute = isoMinute;
     this.second = isoSecond;
@@ -362,6 +362,16 @@ var PlainTime = class {
       { zone: timeZone }
     ).toJSDate().getTime();
     return new ZonedDateTime(epochMilliseconds, timeZone);
+  }
+  toString() {
+    const { hour, minute, second, millisecond } = this;
+    const luxon = DateTime.fromObject({
+      hour,
+      minute,
+      second,
+      millisecond
+    });
+    return luxon.toISOTime({ suppressMilliseconds: true, includeOffset: false });
   }
 };
 
