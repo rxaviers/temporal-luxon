@@ -102,4 +102,16 @@ export class PlainTime {
 
     return new ZonedDateTime(epochMilliseconds, timeZone);
   }
+
+  toString() {
+    const { hour, minute, second, millisecond } = this;
+    const luxon = LuxonDateTime.fromObject({
+      hour,
+      minute,
+      second,
+      millisecond,
+    });
+
+    return luxon.toISOTime({ suppressMilliseconds: true, includeOffset: false });
+  }
 }
