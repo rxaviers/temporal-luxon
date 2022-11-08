@@ -115,7 +115,7 @@ export class PlainDateTime {
     );
   }
 
-  toZonedDateTime({ timeZone } = {}) {
+  toZonedDateTime(timeZone) {
     if (!timeZone) {
       throw new TypeError("Missing timeZone");
     }
