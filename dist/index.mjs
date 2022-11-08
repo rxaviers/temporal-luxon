@@ -175,7 +175,7 @@ var PlainDateTime = class {
       millisecond
     );
   }
-  toZonedDateTime({ timeZone } = {}) {
+  toZonedDateTime(timeZone) {
     if (!timeZone) {
       throw new TypeError("Missing timeZone");
     }
