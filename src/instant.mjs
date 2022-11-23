@@ -31,6 +31,7 @@ export class Instant {
     this.epochMilliseconds = epochMilliseconds;
   }
 
+  // This is incorrect. Removed on 2.x.
   toPlainDate() {
     const luxon = LuxonDateTime.fromMillis(this.epochMilliseconds);
     const { year, month, day } = luxon;
@@ -38,6 +39,7 @@ export class Instant {
     return new PlainDate(year, month, day);
   }
 
+  // This is incorrect. Removed on 2.x.
   toPlainDateTime() {
     const luxon = LuxonDateTime.fromMillis(this.epochMilliseconds);
     const { year, month, day, hour, minute, second, millisecond } = luxon;

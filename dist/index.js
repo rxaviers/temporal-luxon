@@ -472,6 +472,22 @@ var ZonedDateTime = class {
       this.timeZone
     );
   }
+  toPlainDate() {
+    const { year, month, day } = this;
+    return new PlainDate(year, month, day);
+  }
+  toPlainDateTime() {
+    const { year, month, day, hour, minute, second, millisecond } = this;
+    return new PlainDateTime(
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      second,
+      millisecond
+    );
+  }
   toInstant() {
     return new Instant(this.epochMilliseconds);
   }

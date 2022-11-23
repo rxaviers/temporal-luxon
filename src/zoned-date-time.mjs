@@ -1,5 +1,5 @@
 import { DateTime as LuxonDateTime } from "./luxon.mjs";
-import { Instant } from "./index.mjs";
+import { PlainDate, PlainDateTime, Instant } from "./index.mjs";
 
 export class ZonedDateTime {
   static from(item) {
@@ -73,6 +73,26 @@ export class ZonedDateTime {
     return new ZonedDateTime(
       this.luxonDateTime.plus(duration).toMillis(),
       this.timeZone
+    );
+  }
+
+  toPlainDate() {
+    const { year, month, day } = this;
+
+    return new PlainDate(year, month, day);
+  }
+
+  toPlainDateTime() {
+    const { year, month, day, hour, minute, second, millisecond } = this;
+
+    return new PlainDateTime(
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      second,
+      millisecond
     );
   }
 
