@@ -28,9 +28,6 @@ __export(src_exports, {
 });
 module.exports = __toCommonJS(src_exports);
 
-// src/luxon.mjs
-var import_luxon = require("luxon");
-
 // src/instant.mjs
 var Instant = class {
   static compare(a, b) {
@@ -56,24 +53,6 @@ var Instant = class {
   constructor(epochMilliseconds) {
     this.epochMilliseconds = epochMilliseconds;
   }
-  toPlainDate() {
-    const luxon = import_luxon.DateTime.fromMillis(this.epochMilliseconds);
-    const { year, month, day } = luxon;
-    return new PlainDate(year, month, day);
-  }
-  toPlainDateTime() {
-    const luxon = import_luxon.DateTime.fromMillis(this.epochMilliseconds);
-    const { year, month, day, hour, minute, second, millisecond } = luxon;
-    return new PlainDateTime(
-      year,
-      month,
-      day,
-      hour,
-      minute,
-      second,
-      millisecond
-    );
-  }
   toZonedDateTimeISO(timeZone) {
     return new ZonedDateTime(this.epochMilliseconds, timeZone);
   }
@@ -81,6 +60,9 @@ var Instant = class {
     return new Date(this.epochMilliseconds).toISOString();
   }
 };
+
+// src/luxon.mjs
+var import_luxon = require("luxon");
 
 // src/now.mjs
 var Now = class {
@@ -470,6 +452,22 @@ var ZonedDateTime = class {
     return new ZonedDateTime(
       this.luxonDateTime.plus(duration).toMillis(),
       this.timeZone
+    );
+  }
+  toPlainDate() {
+    const { year, month, day } = this;
+    return new PlainDate(year, month, day);
+  }
+  toPlainDateTime() {
+    const { year, month, day, hour, minute, second, millisecond } = this;
+    return new PlainDateTime(
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      second,
+      millisecond
     );
   }
   toInstant() {

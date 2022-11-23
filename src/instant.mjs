@@ -1,5 +1,4 @@
-import { DateTime as LuxonDateTime } from "./luxon.mjs";
-import { PlainDate, PlainDateTime, ZonedDateTime } from "./index.mjs";
+import { ZonedDateTime } from "./index.mjs";
 
 export class Instant {
   static compare(a, b) {
@@ -29,28 +28,6 @@ export class Instant {
   // Note: Temporal.Instant constructor actually takes nanoseconds bigint.
   constructor(epochMilliseconds) {
     this.epochMilliseconds = epochMilliseconds;
-  }
-
-  toPlainDate() {
-    const luxon = LuxonDateTime.fromMillis(this.epochMilliseconds);
-    const { year, month, day } = luxon;
-
-    return new PlainDate(year, month, day);
-  }
-
-  toPlainDateTime() {
-    const luxon = LuxonDateTime.fromMillis(this.epochMilliseconds);
-    const { year, month, day, hour, minute, second, millisecond } = luxon;
-
-    return new PlainDateTime(
-      year,
-      month,
-      day,
-      hour,
-      minute,
-      second,
-      millisecond
-    );
   }
 
   toZonedDateTimeISO(timeZone) {
