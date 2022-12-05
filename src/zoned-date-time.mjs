@@ -76,6 +76,14 @@ export class ZonedDateTime {
     );
   }
 
+  with(zonedDateTimeLike) {
+    if (typeof item === "string") {
+      throw new TypeError("Not implemented");
+    }
+    const luxon = this.luxonDateTime.set(zonedDateTimeLike);
+    return new ZonedDateTime(luxon.toMillis(), this.timeZone);
+  }
+
   toPlainDate() {
     const { year, month, day } = this;
 
