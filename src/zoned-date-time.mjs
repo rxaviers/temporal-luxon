@@ -105,13 +105,17 @@ export class ZonedDateTime {
   }
 
   toString(options = {}) {
-    const { fractionalSecondDigits = "auto", smallestUnit, offset = "auto" } = options;
+    const {
+      fractionalSecondDigits = "auto",
+      smallestUnit,
+      offset = "auto",
+    } = options;
 
     let luxon = this.luxonDateTime;
     const luxonOptions = {};
     let timeZoneName = "";
 
-    if (fractionalSecondDigits !== "auto" || fractionalSecondDigits !== 0) {
+    if (!["auto", 0].includes(fractionalSecondDigits)) {
       throw new TypeError(
         `Not implemented { fractionalSecondDigits: ${fractionalSecondDigits} }`
       );
