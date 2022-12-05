@@ -389,11 +389,11 @@ var PlainTime = class {
 
 // src/zoned-date-time.mjs
 var ZonedDateTime = class {
-  static from(item) {
-    if (typeof item === "string") {
+  static from(item2) {
+    if (typeof item2 === "string") {
       throw new TypeError("Not implemented");
     }
-    const { timeZone, ...props } = item;
+    const { timeZone, ...props } = item2;
     const instant = Instant.from(
       import_luxon.DateTime.fromObject(props, { zone: timeZone }).toISO()
     );
@@ -453,6 +453,13 @@ var ZonedDateTime = class {
       this.luxonDateTime.plus(duration).toMillis(),
       this.timeZone
     );
+  }
+  with(zonedDateTimeLike) {
+    if (typeof item === "string") {
+      throw new TypeError("Not implemented");
+    }
+    const luxon = this.luxonDateTime.set(zonedDateTimeLike);
+    return new ZonedDateTime(luxon.toMillis(), this.timeZone);
   }
   toPlainDate() {
     const { year, month, day } = this;
