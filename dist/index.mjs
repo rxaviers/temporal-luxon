@@ -376,9 +376,6 @@ var ZonedDateTime = class {
       zone: timeZone
     });
   }
-  toString() {
-    return `${this.luxonDateTime.toISO()}[${this.timeZone}]`;
-  }
   get year() {
     return this.luxonDateTime.year;
   }
@@ -449,6 +446,28 @@ var ZonedDateTime = class {
   }
   toInstant() {
     return new Instant(this.epochMilliseconds);
+  }
+  toString(options = {}) {
+    const { fractionalSecondDigits = "auto", smallestUnit, offset = "auto" } = options;
+    let luxon = this.luxonDateTime;
+    const luxonOptions = {};
+    let timeZoneName = "";
+    if (fractionalSecondDigits !== "auto" || fractionalSecondDigits !== 0) {
+      throw new TypeError(
+        `Not implemented { fractionalSecondDigits: ${fractionalSecondDigits} }`
+      );
+    }
+    if (!smallestUnit && fractionalSecondDigits === 0) {
+      luxon = luxon.set({ millisecond: 0 });
+      luxonOptions.suppressMilliseconds = 0;
+    }
+    if (options.timeZoneName !== "never") {
+      timeZoneName = `[${this.timeZone}]`;
+    }
+    if (offset === "never") {
+      luxonOptions.includeOffset = false;
+    }
+    return `${luxon.toISO(luxonOptions)}${timeZoneName}`;
   }
 };
 export {
