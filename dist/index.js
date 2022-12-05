@@ -493,7 +493,7 @@ var ZonedDateTime = class {
     }
     if (!smallestUnit && fractionalSecondDigits === 0) {
       luxon = luxon.set({ millisecond: 0 });
-      luxonOptions.suppressMilliseconds = 0;
+      luxonOptions.suppressMilliseconds = true;
     }
     if (options.timeZoneName !== "never") {
       timeZoneName = `[${this.timeZone}]`;
