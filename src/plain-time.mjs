@@ -1,5 +1,5 @@
-import { DateTime as LuxonDateTime } from "./luxon.mjs";
 import { PlainDateTime, ZonedDateTime } from "./index.mjs";
+import { DateTime as LuxonDateTime } from "./luxon.mjs";
 
 export class PlainTime {
   static compare(a, b) {
@@ -112,6 +112,9 @@ export class PlainTime {
       millisecond,
     });
 
-    return luxon.toISOTime({ suppressMilliseconds: true, includeOffset: false });
+    return luxon.toISOTime({
+      suppressMilliseconds: true,
+      includeOffset: false,
+    });
   }
 }

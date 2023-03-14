@@ -14,9 +14,17 @@ export class Instant {
 
   static from(thing) {
     if (typeof thing === "number") {
-      return new Instant(thing);
+      const instant = new Instant(thing);
+      if (isNaN(instant.epochMilliseconds)) {
+        throw new RangeError("Invalid milliseconds");
+      }
+      return instant;
     } else if (typeof thing === "string") {
-      return new Instant(new Date(thing).getTime());
+      const instant = new Instant(new Date(thing).getTime());
+      if (isNaN(instant.epochMilliseconds)) {
+        throw new RangeError("Invalid ISO 8601");
+      }
+      return instant;
     }
     throw new TypeError("Type not implememnted");
   }

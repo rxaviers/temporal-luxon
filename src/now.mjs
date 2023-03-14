@@ -1,5 +1,11 @@
+import {
+  PlainDate,
+  PlainTime,
+  PlainDateTime,
+  Instant,
+  ZonedDateTime,
+} from "./index.mjs";
 import { DateTime as LuxonDateTime } from "./luxon.mjs";
-import { PlainDate, PlainTime, PlainDateTime, Instant, ZonedDateTime } from "./index.mjs";
 
 export class Now {
   static timeZone() {
@@ -29,5 +35,4 @@ export class Now {
   static zonedDateTimeISO() {
     return new ZonedDateTime(Date.now(), Now.timeZone());
   }
-
 }

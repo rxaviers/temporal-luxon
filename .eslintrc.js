@@ -3,9 +3,10 @@ module.exports = {
     node: true,
     browser: true,
     es2021: true,
+    mocha: true,
   },
-  extends: "eslint:recommended",
-  plugins: ["mocha"],
+  extends: ["eslint:recommended", "plugin:prettier/recommended"],
+  plugins: ["mocha", "prettier"],
   overrides: [],
   parserOptions: {
     ecmaVersion: "latest",
@@ -16,5 +17,6 @@ module.exports = {
     "no-trailing-spaces": 1,
     quotes: [1, "double"],
     semi: 1,
+    "prettier/prettier": "warn",
   },
 };
