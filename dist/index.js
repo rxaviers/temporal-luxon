@@ -37,7 +37,8 @@ var Instant = class {
     if (b.toInstant) {
       b = b.toInstant();
     }
-    return a.epochMilliseconds - b.epochMilliseconds;
+    const diff = a.epochMilliseconds - b.epochMilliseconds;
+    return Math.min(1, Math.max(diff, -1));
   }
   static from(thing) {
     if (typeof thing === "number") {
@@ -122,7 +123,7 @@ var PlainDateTime = class {
     const luxonA = getLuxon(a);
     const luxonB = getLuxon(b);
     const diff = luxonA.diff(luxonB, "millisecond").milliseconds;
-    return diff ? diff / Math.abs(diff) : 0;
+    return Math.min(1, Math.max(diff, -1));
   }
   static from(thing) {
     let luxon;
@@ -237,7 +238,7 @@ var PlainDate = class {
     const luxonA = getLuxon(a);
     const luxonB = getLuxon(b);
     const diff = luxonA.diff(luxonB, "day").days;
-    return diff ? diff / Math.abs(diff) : 0;
+    return Math.min(1, Math.max(diff, -1));
   }
   static from(thing) {
     let luxon;
@@ -312,7 +313,7 @@ var PlainTime = class {
     const luxonA = getLuxon(a);
     const luxonB = getLuxon(b);
     const diff = luxonA.diff(luxonB, "millisecond").milliseconds;
-    return diff ? diff / Math.abs(diff) : 0;
+    return Math.min(1, Math.max(diff, -1));
   }
   static from(thing) {
     let luxon;
