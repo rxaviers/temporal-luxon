@@ -9,7 +9,10 @@ export class Instant {
       b = b.toInstant();
     }
 
-    return a.epochMilliseconds - b.epochMilliseconds;
+    const diff = a.epochMilliseconds - b.epochMilliseconds;
+
+    // Returns: −1, 0, or 1.
+    return Math.min(1, Math.max(diff, -1));
   }
 
   static from(thing) {

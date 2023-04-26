@@ -26,7 +26,8 @@ export class PlainDateTime {
     const luxonB = getLuxon(b);
     const diff = luxonA.diff(luxonB, "millisecond").milliseconds;
 
-    return diff ? diff / Math.abs(diff) : 0;
+    // Returns: −1, 0, or 1.
+    return Math.min(1, Math.max(diff, -1));
   }
 
   static from(thing) {
