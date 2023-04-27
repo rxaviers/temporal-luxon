@@ -1,5 +1,5 @@
 import { DateTime as LuxonDateTime } from "./luxon.mjs";
-import { PlainDateTime, Instant, ZonedDateTime } from "./index.mjs";
+import { PlainDateTime, ZonedDateTime } from "./index.mjs";
 
 export class PlainDate {
   static compare(a, b) {
@@ -63,15 +63,6 @@ export class PlainDate {
     const { year, month, day } = this;
 
     return PlainDateTime.from({ year, month, day, ...time });
-  }
-
-  toInstant() {
-    const { year, month, day } = this;
-    const epochMilliseconds = LuxonDateTime.fromObject({ year, month, day })
-      .toJSDate()
-      .getTime();
-
-    return new Instant(epochMilliseconds);
   }
 
   toZonedDateTime({ timeZone } = {}) {
