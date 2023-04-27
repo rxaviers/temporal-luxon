@@ -244,18 +244,17 @@ var PlainDate = class {
     const { year, month, day } = this;
     return PlainDateTime.from({ year, month, day, ...time2 });
   }
-  toInstant() {
-    const { year, month, day } = this;
-    const epochMilliseconds = DateTime.fromObject({ year, month, day }).toJSDate().getTime();
-    return new Instant(epochMilliseconds);
-  }
-  toZonedDateTime({ timeZone } = {}) {
+  toZonedDateTime({ timeZone, plainTime } = {}) {
     if (!timeZone) {
       throw new TypeError("Missing timeZone");
     }
+    if (!plainTime) {
+      plainTime = new PlainTime(0);
+    }
     const { year, month, day } = this;
+    const { hour, minute, second, millisecond } = plainTime;
     const epochMilliseconds = DateTime.fromObject(
-      { year, month, day },
+      { year, month, day, hour, minute, second, millisecond },
       { zone: timeZone }
     ).toJSDate().getTime();
     return new ZonedDateTime(epochMilliseconds, timeZone);
