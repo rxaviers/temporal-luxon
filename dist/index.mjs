@@ -11,18 +11,14 @@ var Instant = class {
     return Math.min(1, Math.max(diff, -1));
   }
   static from(thing) {
-    if (typeof thing === "number") {
-      const instant = new Instant(thing);
-      if (isNaN(instant.epochMilliseconds)) {
-        throw new RangeError("Invalid milliseconds");
-      }
-      return instant;
-    } else if (typeof thing === "string") {
+    if (typeof thing === "string") {
       const instant = new Instant(new Date(thing).getTime());
       if (isNaN(instant.epochMilliseconds)) {
         throw new RangeError("Invalid ISO 8601");
       }
       return instant;
+    } else if (thing && thing.epochMilliseconds) {
+      return Instant.fromEpochMilliseconds(thing.epochMilliseconds);
     }
     throw new TypeError("Type not implememnted");
   }
@@ -62,7 +58,7 @@ var Now = class {
     );
   }
   static instant() {
-    return Instant.from(Date.now());
+    return Instant.fromEpochMilliseconds(Date.now());
   }
   static zonedDateTimeISO() {
     return new ZonedDateTime(Date.now(), Now.timeZone());
