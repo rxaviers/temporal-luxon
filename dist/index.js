@@ -24,6 +24,7 @@ __export(src_exports, {
   PlainDate: () => PlainDate,
   PlainDateTime: () => PlainDateTime,
   PlainTime: () => PlainTime,
+  TimeZone: () => TimeZone,
   ZonedDateTime: () => ZonedDateTime
 });
 module.exports = __toCommonJS(src_exports);
@@ -76,7 +77,7 @@ var import_luxon = require("luxon");
 // src/now.mjs
 var Now = class {
   static timeZone() {
-    return import_luxon.DateTime.now().zoneName;
+    return new TimeZone(import_luxon.DateTime.now().zoneName);
   }
   static plainDateISO() {
     return PlainDate.from(import_luxon.DateTime.now().toISODate());
@@ -203,7 +204,7 @@ var PlainDateTime = class {
     const { year, month, day, hour, minute, second, millisecond } = this;
     const epochMilliseconds = import_luxon.DateTime.fromObject(
       { year, month, day, hour, minute, second, millisecond },
-      { zone: timeZone }
+      { zone: timeZone.toString() }
     ).toJSDate().getTime();
     return new ZonedDateTime(epochMilliseconds, timeZone);
   }
@@ -285,7 +286,7 @@ var PlainDate = class {
     const { hour, minute, second, millisecond } = plainTime;
     const epochMilliseconds = import_luxon.DateTime.fromObject(
       { year, month, day, hour, minute, second, millisecond },
-      { zone: timeZone }
+      { zone: timeZone.toString() }
     ).toJSDate().getTime();
     return new ZonedDateTime(epochMilliseconds, timeZone);
   }
@@ -379,7 +380,7 @@ var PlainTime = class {
     const { hour, minute, second, millisecond } = this;
     const epochMilliseconds = import_luxon.DateTime.fromObject(
       { year, month, day, hour, minute, second, millisecond },
-      { zone: timeZone }
+      { zone: timeZone.toString() }
     ).toJSDate().getTime();
     return new ZonedDateTime(epochMilliseconds, timeZone);
   }
@@ -395,6 +396,43 @@ var PlainTime = class {
       suppressMilliseconds: true,
       includeOffset: false
     });
+  }
+};
+
+// src/time-zone.mjs
+var TimeZone = class {
+  static from() {
+    throw new TypeError("Type not implememnted");
+  }
+  constructor(timeZoneIdentifier) {
+    this.id = timeZoneIdentifier;
+  }
+  getOffsetNanosecondsFor() {
+    throw new TypeError("Not implememnted");
+  }
+  getOffsetStringFor() {
+    throw new TypeError("Not implememnted");
+  }
+  getPlainDateTimeFor() {
+    throw new TypeError("Not implememnted");
+  }
+  getInstantFor() {
+    throw new TypeError("Not implememnted");
+  }
+  getNextTransition() {
+    throw new TypeError("Not implememnted");
+  }
+  getPreviousTransition() {
+    throw new TypeError("Not implememnted");
+  }
+  getPossibleInstantsFor() {
+    throw new TypeError("Not implememnted");
+  }
+  toString() {
+    return this.id;
+  }
+  toJSON() {
+    return this.id;
   }
 };
 
@@ -414,7 +452,7 @@ var ZonedDateTime = class {
     this.timeZone = timeZone;
     this.epochMilliseconds = epochMilliseconds;
     this.luxonDateTime = import_luxon.DateTime.fromMillis(epochMilliseconds, {
-      zone: timeZone
+      zone: timeZone.toString()
     });
   }
   get year() {
@@ -459,7 +497,7 @@ var ZonedDateTime = class {
   add(duration) {
     return new ZonedDateTime(
       this.luxonDateTime.plus(duration).toMillis(),
-      this.timeZone
+      this.timeZone.toString()
     );
   }
   with(zonedDateTimeLike) {
@@ -522,5 +560,6 @@ var ZonedDateTime = class {
   PlainDate,
   PlainDateTime,
   PlainTime,
+  TimeZone,
   ZonedDateTime
 });
