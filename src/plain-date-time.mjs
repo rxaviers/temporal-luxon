@@ -123,7 +123,7 @@ export class PlainDateTime {
     const { year, month, day, hour, minute, second, millisecond } = this;
     const epochMilliseconds = LuxonDateTime.fromObject(
       { year, month, day, hour, minute, second, millisecond },
-      { zone: timeZone }
+      { zone: timeZone.toString() }
     )
       .toJSDate()
       .getTime();

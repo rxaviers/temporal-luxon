@@ -3,13 +3,14 @@ import {
   PlainTime,
   PlainDateTime,
   Instant,
+  TimeZone,
   ZonedDateTime,
 } from "./index.mjs";
 import { DateTime as LuxonDateTime } from "./luxon.mjs";
 
 export class Now {
   static timeZone() {
-    return LuxonDateTime.now().zoneName;
+    return new TimeZone(LuxonDateTime.now().zoneName);
   }
 
   static plainDateISO() {

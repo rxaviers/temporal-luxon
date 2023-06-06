@@ -76,7 +76,7 @@ export class PlainDate {
     const { hour, minute, second, millisecond } = plainTime;
     const epochMilliseconds = LuxonDateTime.fromObject(
       { year, month, day, hour, minute, second, millisecond },
-      { zone: timeZone }
+      { zone: timeZone.toString() }
     )
       .toJSDate()
       .getTime();

@@ -21,7 +21,7 @@ export class ZonedDateTime {
     this.timeZone = timeZone;
     this.epochMilliseconds = epochMilliseconds;
     this.luxonDateTime = LuxonDateTime.fromMillis(epochMilliseconds, {
-      zone: timeZone,
+      zone: timeZone.toString(),
     });
   }
 
@@ -68,7 +68,7 @@ export class ZonedDateTime {
   add(duration) {
     return new ZonedDateTime(
       this.luxonDateTime.plus(duration).toMillis(),
-      this.timeZone
+      this.timeZone.toString()
     );
   }
 
