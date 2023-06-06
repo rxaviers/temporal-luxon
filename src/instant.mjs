@@ -17,6 +17,7 @@ export class Instant {
 
   static from(thing) {
     if (typeof thing === "number") {
+      // FIXME Instant.from isn't expected to accept numbers.
       const instant = new Instant(thing);
       if (isNaN(instant.epochMilliseconds)) {
         throw new RangeError("Invalid milliseconds");
