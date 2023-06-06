@@ -16,19 +16,16 @@ export class Instant {
   }
 
   static from(thing) {
-    if (typeof thing === "number") {
-      // FIXME Instant.from isn't expected to accept numbers.
-      const instant = new Instant(thing);
-      if (isNaN(instant.epochMilliseconds)) {
-        throw new RangeError("Invalid milliseconds");
-      }
-      return instant;
-    } else if (typeof thing === "string") {
+    if (typeof thing === "string") {
       const instant = new Instant(new Date(thing).getTime());
       if (isNaN(instant.epochMilliseconds)) {
         throw new RangeError("Invalid ISO 8601");
       }
       return instant;
+    }
+    // If an Instant instance
+    else if (thing && thing.epochMilliseconds) {
+      return Instant.fromEpochMilliseconds(thing.epochMilliseconds);
     }
     throw new TypeError("Type not implememnted");
   }

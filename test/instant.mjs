@@ -54,6 +54,21 @@ describe("Instant", function () {
       const unsupportedType = true;
       expect(() => Instant.from(unsupportedType)).to.throw(TypeError);
     });
+
+    it("should throw a TypeError for unsupported types (a number)", function () {
+      const unsupportedType = 1000;
+      expect(() => Instant.from(unsupportedType)).to.throw(TypeError);
+    });
+
+    it("should create an Instant from another Instant", function () {
+      const instant = Instant.fromEpochMilliseconds(1000);
+      const anotherInstant = Instant.from(instant);
+      expect(anotherInstant).to.be.an.instanceof(Instant);
+      expect(anotherInstant).to.not.equal(instant);
+      expect(anotherInstant.epochMilliseconds).to.equal(
+        instant.epochMilliseconds
+      );
+    });
   });
 
   describe("fromEpochMilliseconds", function () {

@@ -30,7 +30,7 @@ export class Now {
   }
 
   static instant() {
-    return Instant.from(Date.now());
+    return Instant.fromEpochMilliseconds(Date.now());
   }
 
   static zonedDateTimeISO() {
