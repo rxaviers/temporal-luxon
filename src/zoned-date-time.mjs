@@ -1,5 +1,5 @@
+import { PlainDate, PlainDateTime, Instant, TimeZone } from "./index.mjs";
 import { DateTime as LuxonDateTime } from "./luxon.mjs";
-import { PlainDate, PlainDateTime, Instant } from "./index.mjs";
 
 export class ZonedDateTime {
   static from(item) {
@@ -18,10 +18,11 @@ export class ZonedDateTime {
 
   // Note: Temporal.ZonedDateTime constructor takes epochNanoseconds as first argument, not epochMilliseconds.
   constructor(epochMilliseconds, timeZone) {
-    this.timeZone = timeZone;
+    this.timeZone =
+      typeof timeZone === "string" ? new TimeZone(timeZone) : timeZone;
     this.epochMilliseconds = epochMilliseconds;
     this.luxonDateTime = LuxonDateTime.fromMillis(epochMilliseconds, {
-      zone: timeZone.toString(),
+      zone: this.timeZoneId,
     });
   }
 
@@ -64,11 +65,14 @@ export class ZonedDateTime {
   get inLeapYear() {
     return this.luxonDateTime.isInLeapYear;
   }
+  get timeZoneId() {
+    return this.timeZone.toString();
+  }
 
   add(duration) {
     return new ZonedDateTime(
       this.luxonDateTime.plus(duration).toMillis(),
-      this.timeZone.toString()
+      this.timeZone
     );
   }
 
@@ -78,6 +82,10 @@ export class ZonedDateTime {
     }
     const luxon = this.luxonDateTime.set(zonedDateTimeLike);
     return new ZonedDateTime(luxon.toMillis(), this.timeZone);
+  }
+
+  getTimeZone() {
+    return this.timeZone;
   }
 
   toPlainDate() {
@@ -126,7 +134,7 @@ export class ZonedDateTime {
       luxonOptions.suppressMilliseconds = true;
     }
     if (options.timeZoneName !== "never") {
-      timeZoneName = `[${this.timeZone}]`;
+      timeZoneName = `[${this.timeZoneId}]`;
     }
     if (offset === "never") {
       luxonOptions.includeOffset = false;

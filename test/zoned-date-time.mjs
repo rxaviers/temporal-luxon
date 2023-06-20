@@ -3,6 +3,7 @@ import {
   PlainDate,
   PlainDateTime,
   Instant,
+  TimeZone,
 } from "../src/index.mjs";
 import { expect } from "chai";
 
@@ -29,7 +30,7 @@ describe("ZonedDateTime", function () {
       expect(zonedDateTime.minute).to.equal(0);
       expect(zonedDateTime.second).to.equal(0);
       expect(zonedDateTime.millisecond).to.equal(0);
-      expect(zonedDateTime.timeZone).to.equal("America/New_York");
+      expect(zonedDateTime.timeZoneId).to.equal("America/New_York");
     });
   });
 
@@ -60,6 +61,7 @@ describe("ZonedDateTime", function () {
       expect(zonedDateTime.daysInMonth).to.equal(30);
       expect(zonedDateTime.daysInYear).to.equal(365);
       expect(zonedDateTime.inLeapYear).to.be.false;
+      expect(zonedDateTime.timeZoneId).to.equal("America/New_York");
     });
   });
 
@@ -95,7 +97,7 @@ describe("ZonedDateTime", function () {
       expect(result.minute).to.equal(30);
       expect(result.second).to.equal(15);
       expect(result.millisecond).to.equal(500);
-      expect(result.timeZone).to.equal("America/New_York");
+      expect(result.timeZoneId).to.equal("America/New_York");
     });
   });
 
@@ -127,7 +129,28 @@ describe("ZonedDateTime", function () {
       expect(result.minute).to.equal(30);
       expect(result.second).to.equal(45);
       expect(result.millisecond).to.equal(0);
-      expect(result.timeZone).to.equal("America/New_York");
+      expect(result.timeZoneId).to.equal("America/New_York");
+    });
+  });
+
+  describe("getTimeZone", function () {
+    it("should return a TimeZone instance with the same timeZone as the ZonedDateTime", function () {
+      const dateTimeObject = {
+        year: 2023,
+        month: 6,
+        day: 6,
+        hour: 12,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+        timeZone: "America/New_York",
+      };
+      const zonedDateTime = ZonedDateTime.from(dateTimeObject);
+      const timeZone = zonedDateTime.getTimeZone();
+
+      expect(timeZone).to.be.an.instanceof(TimeZone);
+      expect(timeZone.id).to.equal("America/New_York");
+      expect(timeZone.toString()).to.equal("America/New_York");
     });
   });
 
