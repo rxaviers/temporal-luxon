@@ -50,7 +50,7 @@
   "homepage": "https://github.com/rxaviers/temporal-luxon#readme",
   "scripts": {
     "test": "eslint --ext .js --ext .mjs src && mocha",
-    "build": "tsup --format cjs --format esm src/index.mjs"
+    "build": "tsup --format cjs --format esm src/index.mjs && cp src/index.d.ts dist/"
   },
   "devDependencies": {
     "chai": "^4.3.6",
