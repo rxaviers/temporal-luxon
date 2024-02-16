@@ -414,10 +414,10 @@ var ZonedDateTime = class {
     return new ZonedDateTime(instant.epochMilliseconds, timeZone);
   }
   constructor(epochMilliseconds, timeZone) {
-    this.timeZone = timeZone;
+    this.timeZone = typeof timeZone === "string" ? new TimeZone(timeZone) : timeZone;
     this.epochMilliseconds = epochMilliseconds;
     this.luxonDateTime = DateTime.fromMillis(epochMilliseconds, {
-      zone: timeZone.toString()
+      zone: this.timeZoneId
     });
   }
   get year() {
@@ -459,10 +459,13 @@ var ZonedDateTime = class {
   get inLeapYear() {
     return this.luxonDateTime.isInLeapYear;
   }
+  get timeZoneId() {
+    return this.timeZone.toString();
+  }
   add(duration) {
     return new ZonedDateTime(
       this.luxonDateTime.plus(duration).toMillis(),
-      this.timeZone.toString()
+      this.timeZone
     );
   }
   with(zonedDateTimeLike) {
@@ -471,6 +474,9 @@ var ZonedDateTime = class {
     }
     const luxon = this.luxonDateTime.set(zonedDateTimeLike);
     return new ZonedDateTime(luxon.toMillis(), this.timeZone);
+  }
+  getTimeZone() {
+    return this.timeZone;
   }
   toPlainDate() {
     const { year, month, day } = this;
@@ -510,7 +516,7 @@ var ZonedDateTime = class {
       luxonOptions.suppressMilliseconds = true;
     }
     if (options.timeZoneName !== "never") {
-      timeZoneName = `[${this.timeZone}]`;
+      timeZoneName = `[${this.timeZoneId}]`;
     }
     if (offset === "never") {
       luxonOptions.includeOffset = false;
