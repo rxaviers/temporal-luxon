@@ -127,7 +127,20 @@ var PlainDateTime = class {
     if (typeof thing === "string") {
       luxon = import_luxon.DateTime.fromISO(thing);
     } else {
-      luxon = import_luxon.DateTime.fromObject(thing);
+      ["year", "day", "month"].forEach((field) => {
+        if (thing[field] === void 0) {
+          throw new TypeError(`missing "${field}" calendar field`);
+        }
+      });
+      luxon = import_luxon.DateTime.fromObject({
+        year: thing.year,
+        month: thing.month,
+        day: thing.day,
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0
+      }).set(thing);
     }
     const { year, month, day, hour, minute, second, millisecond } = luxon;
     return new PlainDateTime(
@@ -242,6 +255,11 @@ var PlainDate = class {
     if (typeof thing === "string") {
       luxon = import_luxon.DateTime.fromISO(thing);
     } else {
+      ["year", "day", "month"].forEach((field) => {
+        if (thing[field] === void 0) {
+          throw new TypeError(`missing "${field}" calendar field`);
+        }
+      });
       luxon = import_luxon.DateTime.fromObject(thing);
     }
     const { year, month, day } = luxon;
@@ -316,7 +334,12 @@ var PlainTime = class {
     if (typeof thing === "string") {
       luxon = import_luxon.DateTime.fromISO(thing);
     } else {
-      luxon = import_luxon.DateTime.fromObject(thing);
+      luxon = import_luxon.DateTime.fromObject({
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0
+      }).plus(thing);
     }
     const { hour, minute, second, millisecond } = luxon;
     return new PlainTime(hour, minute, second, millisecond);
@@ -439,8 +462,24 @@ var ZonedDateTime = class {
       throw new TypeError("Not implemented");
     }
     const { timeZone, ...props } = item2;
+    ["year", "day", "month"].forEach((field) => {
+      if (props[field] === void 0) {
+        throw new TypeError(`missing "${field}" calendar field`);
+      }
+    });
     const instant = Instant.from(
-      import_luxon.DateTime.fromObject(props, { zone: timeZone }).toISO()
+      import_luxon.DateTime.fromObject(
+        {
+          year: props.year,
+          month: props.month,
+          day: props.day,
+          hour: 0,
+          minute: 0,
+          second: 0,
+          millisecond: 0
+        },
+        { zone: timeZone }
+      ).set(props).toISO()
     );
     return new ZonedDateTime(instant.epochMilliseconds, timeZone);
   }
