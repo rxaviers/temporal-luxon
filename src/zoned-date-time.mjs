@@ -9,8 +9,26 @@ export class ZonedDateTime {
       // return new ZonedDateTime(new Date(item).getTime(), timeZone)
     }
     const { timeZone, ...props } = item;
+    ["year", "day", "month"].forEach((field) => {
+      if (props[field] === undefined) {
+        throw new TypeError(`missing "${field}" calendar field`);
+      }
+    });
     const instant = Instant.from(
-      LuxonDateTime.fromObject(props, { zone: timeZone }).toISO()
+      LuxonDateTime.fromObject(
+        {
+          year: props.year,
+          month: props.month,
+          day: props.day,
+          hour: 0,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        },
+        { zone: timeZone }
+      )
+        .set(props)
+        .toISO()
     );
 
     return new ZonedDateTime(instant.epochMilliseconds, timeZone);

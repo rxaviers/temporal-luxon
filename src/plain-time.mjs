@@ -27,7 +27,12 @@ export class PlainTime {
     if (typeof thing === "string") {
       luxon = LuxonDateTime.fromISO(thing);
     } else {
-      luxon = LuxonDateTime.fromObject(thing);
+      luxon = LuxonDateTime.fromObject({
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+      }).plus(thing);
     }
     const { hour, minute, second, millisecond } = luxon;
 

@@ -49,6 +49,17 @@ describe("PlainDate", function () {
       expect(result.month).to.equal(6);
       expect(result.day).to.equal(1);
     });
+
+    it("should throw if an object is missing a required date field", function () {
+      expect(() => PlainDate.from({ month: 6, day: 6 })).to.throw(
+        TypeError,
+        'missing "year" calendar field'
+      );
+      expect(() => PlainDate.from({ year: 2023, month: 6 })).to.throw(
+        TypeError,
+        'missing "day" calendar field'
+      );
+    });
   });
 
   describe("add", function () {

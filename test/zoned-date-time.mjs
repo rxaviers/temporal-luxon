@@ -32,6 +32,47 @@ describe("ZonedDateTime", function () {
       expect(zonedDateTime.millisecond).to.equal(0);
       expect(zonedDateTime.timeZoneId).to.equal("America/New_York");
     });
+
+    it("should create a ZonedDateTime from an object with default time fields", function () {
+      const zonedDateTime = ZonedDateTime.from({
+        year: 2023,
+        month: 6,
+        day: 6,
+        hour: 12,
+        timeZone: "UTC",
+      });
+
+      expect(zonedDateTime).to.be.an.instanceof(ZonedDateTime);
+      expect(zonedDateTime.year).to.equal(2023);
+      expect(zonedDateTime.month).to.equal(6);
+      expect(zonedDateTime.day).to.equal(6);
+      expect(zonedDateTime.hour).to.equal(12);
+      expect(zonedDateTime.minute).to.equal(0);
+      expect(zonedDateTime.second).to.equal(0);
+      expect(zonedDateTime.millisecond).to.equal(0);
+      expect(zonedDateTime.timeZoneId).to.equal("UTC");
+    });
+
+    it("should throw if an object is missing a required date field", function () {
+      expect(() =>
+        ZonedDateTime.from({ seconds: 0, timeZone: "America/Sao_Paulo" })
+      ).to.throw(TypeError, 'missing "year" calendar field');
+      expect(() =>
+        ZonedDateTime.from({
+          year: 2023,
+          seconds: 0,
+          timeZone: "America/Sao_Paulo",
+        })
+      ).to.throw(TypeError, 'missing "day" calendar field');
+      expect(() =>
+        ZonedDateTime.from({
+          year: 2023,
+          day: 1,
+          seconds: 0,
+          timeZone: "America/Sao_Paulo",
+        })
+      ).to.throw(TypeError, 'missing "month" calendar field');
+    });
   });
 
   describe("getters", function () {
