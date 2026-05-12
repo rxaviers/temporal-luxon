@@ -43,6 +43,40 @@ describe("PlainDateTime", function () {
       expect(dt.second).to.equal(0);
       expect(dt.millisecond).to.equal(0);
     });
+
+    it("should create a PlainDateTime from an object with default time fields", function () {
+      const dt = PlainDateTime.from({
+        year: 2023,
+        month: 6,
+        day: 6,
+        hour: 12,
+      });
+      expect(dt).to.be.an.instanceof(PlainDateTime);
+      expect(dt.year).to.equal(2023);
+      expect(dt.month).to.equal(6);
+      expect(dt.day).to.equal(6);
+      expect(dt.hour).to.equal(12);
+      expect(dt.minute).to.equal(0);
+      expect(dt.second).to.equal(0);
+      expect(dt.millisecond).to.equal(0);
+    });
+
+    it("should throw if an object is missing a required date field", function () {
+      expect(() => PlainDateTime.from({ second: 0 })).to.throw(
+        TypeError,
+        'missing "year" calendar field'
+      );
+      expect(() => PlainDateTime.from({ year: 2023, second: 0 })).to.throw(
+        TypeError,
+        'missing "day" calendar field'
+      );
+      expect(() =>
+        PlainDateTime.from({ year: 2023, month: 6, second: 0 })
+      ).to.throw(TypeError, 'missing "day" calendar field');
+      expect(() =>
+        PlainDateTime.from({ year: 2023, day: 6, second: 0 })
+      ).to.throw(TypeError, 'missing "month" calendar field');
+    });
   });
 
   describe("add", function () {

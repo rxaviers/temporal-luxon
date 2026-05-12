@@ -33,6 +33,24 @@ describe("PlainTime", function () {
       expect(time.second).to.equal(0);
       expect(time.millisecond).to.equal(0);
     });
+
+    it("should create a PlainTime object from an object with default time fields", function () {
+      const time = PlainTime.from({ second: 30 });
+
+      expect(time.hour).to.equal(0);
+      expect(time.minute).to.equal(0);
+      expect(time.second).to.equal(30);
+      expect(time.millisecond).to.equal(0);
+    });
+
+    it("should create a PlainTime object from an empty object", function () {
+      const time = PlainTime.from({});
+
+      expect(time.hour).to.equal(0);
+      expect(time.minute).to.equal(0);
+      expect(time.second).to.equal(0);
+      expect(time.millisecond).to.equal(0);
+    });
   });
 
   describe("add", function () {

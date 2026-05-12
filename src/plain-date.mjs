@@ -27,6 +27,11 @@ export class PlainDate {
     if (typeof thing === "string") {
       luxon = LuxonDateTime.fromISO(thing);
     } else {
+      ["year", "day", "month"].forEach((field) => {
+        if (thing[field] === undefined) {
+          throw new TypeError(`missing "${field}" calendar field`);
+        }
+      });
       luxon = LuxonDateTime.fromObject(thing);
     }
     const { year, month, day } = luxon;
